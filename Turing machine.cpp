@@ -12,9 +12,6 @@
 
 using namespace std;
 
-//                       \/ ivedimo duomenys
-const string failas = "6.txt";
-
 struct bus
 {
     vector<char> esamas1, esamas2, naujas1, naujas2;
@@ -26,6 +23,10 @@ struct bus
 
 int main()
 {
+    cout<<"Iveskit ivesties failo pilna pavadinima: ";
+    string failas;
+    cin>>failas;
+    
     ifstream fin(failas);
 
     ///////////////////////////////////////////////juostos
