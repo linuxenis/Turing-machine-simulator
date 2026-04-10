@@ -1,0 +1,44 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Package into zip
+        run: |
+          mkdir release
+          copy build\Release\TuringMachineSimulator.exe release\
+          copy 1.txt release\
+          copy 2.txt release\
+          copy 3.txt release\
+          copy 4.txt release\
+          copy 5.txt release\
+          copy 6.txt release\
+          Compress-Archive -Path release\* -DestinationPath TuringMachineSimulator.zip
+        shell: powershell
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: TuringMachineSimulator.zip
